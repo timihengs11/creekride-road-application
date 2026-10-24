@@ -1,149 +1,53 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>CreekRide SIMPLE - GUARANTEED CLICKS</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>body{margin:0;font-family:Arial;background:#fff}.top{background:#0f766e;color:#fff;padding:15px;text-align:center}.box{margin:15px;padding:15px;border:2px solid #0f766e;border-radius:10px}.box h3{margin-top:0;color:#0f766e}input{width:100%;padding:12px;margin:6px 0;border:1px solid #999;border-radius:6px;box-sizing:border-box;font-size:16px}button{width:100%;padding:14px;background:#0f766e;color:#fff;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:8px}button:active{background:#000}.btn2{background:#ff6600}.msg{margin-top:10px;padding:10px;border-radius:6px;display:none;font-size:14px;white-space:pre-wrap;word-break:break-all}.good{background:#d1fae5;color:#065f46;border:1px solid green;display:block}.bad{background:#fee2e2;color:#900;border:1px solid red;display:block}.info{background:#fef3c7;color:#92400e;display:block}</style>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CreekRide ULTIMATE - Works</title>
+<style>body{font-family:Arial;margin:0;background:#f5f5f5}.h{background:#0f766e;color:#fff;padding:20px;text-align:center}.y{background:gold;color:#000;padding:12px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;font-size:14px;margin-top:10px}.b{margin:12px;background:#fff;padding:15px;border-radius:10px;border-left:4px solid #0f766e}input{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}.btn{width:100%;padding:12px;background:#0f766e;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer}.r{margin-top:8px;padding:8px;border-radius:6px;display:none;font-size:13px;white-space:pre-wrap;word-break:break-all}.ok{background:#dcfce7;color:#166534;display:block}.er{background:#fee2e2;color:#991b1b;display:block}</style>
 </head><body>
-<div class="top"><h2>CreekRide Bayelsa - SIMPLE MODE</h2><p>100% Works - Even If Backend Sleeps</p>
-<button onclick="wakeBackend()" id="wakeBtn" style="background:gold;color:black;width:auto;padding:10px 20px;border-radius:20px">WAKE BACKEND FIRST - CLICK ME</button>
-<div id="status" style="font-size:12px;margin-top:8px">Backend: Click Wake button first!</div>
-</div>
+<div class="h"><h2>CreekRide Bayelsa - ULTIMATE FIX</h2><p id="st">Backend: Click Wake Button!</p><button class="y" id="wb" onclick="wake()">CLICK TO WAKE BACKEND - 40 SEC</button></div>
 
-<div class="box"><h3>1. REGISTER - Must Wake First</h3>
-<input id="rn" placeholder="Full Name e.g. Timmy"><input id="re" placeholder="Email e.g. timmy@test.com"><input id="rp" type="password" placeholder="Password e.g. 123456">
-<button onclick="doRegister()">REGISTER - CLICK ME</button>
-<div id="rr" class="msg"></div></div>
+<div class="b"><h3>REGISTER</h3><input id="rn" placeholder="Full Name"><input id="re" placeholder="Email"><input id="rp" type="password" placeholder="Password">
+<button class="btn" onclick="reg()">REGISTER</button><div id="rr" class="r"></div></div>
 
-<div class="box"><h3>2. LOGIN</h3>
-<input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password">
-<button onclick="doLogin()">LOGIN - CLICK ME</button>
-<div id="lr" class="msg"></div></div>
+<div class="b"><h3>LOGIN</h3><input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password">
+<button class="btn" onclick="login()">LOGIN</button><div id="lr" class="r"></div></div>
 
-<div class="box"><h3>3. CREATE RIDE (Need Login)</h3>
-<input id="cf" value="Yenagoa"><input id="ct" value="Brass"><input id="cp" value="8000"><input id="cs" value="4">
-<button onclick="doCreateRide()">CREATE RIDE</button>
-<div id="cr" class="msg"></div></div>
-
-<div class="box"><h3>4. ALL RIDES LIVE</h3>
-<button class="btn2" onclick="loadRides()">LOAD RIDES - CLICK ME</button>
-<div id="ar"></div></div>
+<div class="b"><h3>RIDES</h3><button class="btn" onclick="getRides()" style="background:#f97316">LOAD RIDES</button><div id="ar"></div></div>
 
 <script>
-var API='https://creekride-road-application-2.onrender.com';
-var TOKEN='';
-var LIVE=false;
-
-function showMsg(id, text, ok){
- var el=document.getElementById(id);
- el.style.display='block';
- el.textContent=text;
- if(ok) el.className='msg good';
- else el.className='msg bad';
+var API='https://creekride-road-application-2.onrender.com';var TOKEN='';var LIVE=false;
+function msg(id,t,ok){var e=document.getElementById(id);e.style.display='block';e.textContent=t;e.className='r '+(ok?'ok':'er');}
+function wake(){
+ var s=document.getElementById('st');var b=document.getElementById('wb');
+ s.textContent='Waking backend... wait 40 sec...';b.textContent='WAKING... WAIT...';
+ var x=new XMLHttpRequest();x.open('GET',API+'/',true);x.onload=function(){
+  if(x.status==200){LIVE=true;s.textContent='✅ LIVE! '+x.responseText.substring(0,100);b.textContent='✅ LIVE! READY!';b.style.background='#22c55e';b.style.color='#fff';}
+  else{s.textContent='Status '+x.status+' - click Wake again';b.textContent='Click Wake Again';}
+ };x.onerror=function(){s.textContent='Still sleeping - click Wake again in 20 sec';b.textContent='Click Wake Again';};x.send();
 }
-
-function wakeBackend(){
- var s=document.getElementById('status');
- var b=document.getElementById('wakeBtn');
- s.textContent='Waking... Render takes 40 sec... WAIT...';
- b.textContent='WAKING... WAIT 40 SEC...';
- var xhr=new XMLHttpRequest();
- xhr.open('GET', API+'/', true);
- xhr.timeout=60000;
- xhr.onload=function(){
-  if(xhr.status>=200 && xhr.status<300){
-   LIVE=true;
-   s.textContent='✅ Backend LIVE! '+xhr.responseText.substring(0,150);
-   b.textContent='✅ BACKEND LIVE! NOW REGISTER!';
-   b.style.background='#22c55e';
-   b.style.color='white';
-  } else {
-   s.textContent='Backend responded '+xhr.status+' but not LIVE yet, click Wake again in 10 sec';
-   b.textContent='Click Wake Again';
-  }
- };
- xhr.onerror=function(){s.textContent='Network error - Backend still waking, click Wake again in 20 sec';b.textContent='Click Wake Again - Still Sleeping';};
- xhr.ontimeout=function(){s.textContent='Timeout - Render waking slowly, click Wake again';b.textContent='Timeout - Click Again';};
- xhr.send();
+function reg(){
+ if(!LIVE){msg('rr','Click WAKE button first! Wait green!',false);return;}
+ var n=document.getElementById('rn').value,e=document.getElementById('re').value,p=document.getElementById('rp').value;
+ if(!n||!e||!p){msg('rr','Fill all fields',false);return;}
+ msg('rr','Registering...',true);
+ var x=new XMLHttpRequest();x.open('POST',API+'/register',true);x.setRequestHeader('Content-Type','application/json');
+ x.onload=function(){
+  if(x.status==200||x.status==201){msg('rr','✅ SUCCESS! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}
+  else{if(x.status==400)msg('rr','Already exists! Go LOGIN! '+x.responseText,true);else msg('rr','Error '+x.status+': '+x.responseText,false);}
+ };x.send(JSON.stringify({full_name:n,email:e,password:p}));
 }
-
-function doRegister(){
- if(!LIVE){showMsg('rr','Backend is SLEEPING! Click YELLOW Wake button at top first! Wait until GREEN!',false);return;}
- var n=document.getElementById('rn').value;
- var e=document.getElementById('re').value;
- var p=document.getElementById('rp').value;
- if(!n||!e||!p){showMsg('rr','Fill name, email, password!',false);return;}
- showMsg('rr','Registering '+e+'... please wait...',true);
- var xhr=new XMLHttpRequest();
- xhr.open('POST', API+'/register', true);
- xhr.setRequestHeader('Content-Type','application/json');
- xhr.onload=function(){
-  var txt=xhr.responseText;
-  if(xhr.status>=200 && xhr.status<300){
-   showMsg('rr','✅ SUCCESS 200 OK!\n'+txt+'\n\nNow go to LOGIN box below!',true);
-   document.getElementById('le').value=e;
-   document.getElementById('lp').value=p;
-  } else {
-   if(xhr.status==400 && txt.indexOf('already exists')>-1){
-    showMsg('rr','User already exists! Go to LOGIN with same password!\n'+txt,true);
-    document.getElementById('le').value=e;
-    document.getElementById('lp').value=p;
-   } else {
-    showMsg('rr','❌ Error '+xhr.status+':\n'+txt,false);
-   }
-  }
- };
- xhr.onerror=function(){showMsg('rr','Network Error: '+xhr.status+' - Backend may have slept, click Wake again!',false);LIVE=false;};
- xhr.send(JSON.stringify({full_name:n,email:e,password:p}));
+function login(){
+ if(!LIVE){msg('lr','Wake first!',false);return;}
+ var e=document.getElementById('le').value,p=document.getElementById('lp').value;
+ var x=new XMLHttpRequest();x.open('POST',API+'/login',true);x.setRequestHeader('Content-Type','application/json');
+ x.onload=function(){
+  if(x.status==200){var d=JSON.parse(x.responseText);TOKEN=d.access_token;msg('lr','✅ LOGIN SUCCESS! Token saved! '+x.responseText,true);}
+  else msg('lr','Failed '+x.status+': '+x.responseText,false);
+ };x.send(JSON.stringify({email:e,password:p}));
 }
-
-function doLogin(){
- if(!LIVE){showMsg('lr','Wake backend first!',false);return;}
- var e=document.getElementById('le').value;
- var p=document.getElementById('lp').value;
- if(!e||!p){showMsg('lr','Fill email and password',false);return;}
- showMsg('lr','Logging in '+e+'...',true);
- var xhr=new XMLHttpRequest();
- xhr.open('POST', API+'/login', true);
- xhr.setRequestHeader('Content-Type','application/json');
- xhr.onload=function(){
-  var txt=xhr.responseText;
-  if(xhr.status>=200 && xhr.status<300){
-   try{var data=JSON.parse(txt);TOKEN=data.access_token;showMsg('lr','✅ LOGIN SUCCESS! Token saved!\n'+txt,true);}catch(e){showMsg('lr','Login OK but parse error: '+txt,true);}
-  } else {
-   showMsg('lr','❌ Login failed '+xhr.status+': '+txt,false);
-  }
- };
- xhr.onerror=function(){showMsg('lr','Network error',false);};
- xhr.send(JSON.stringify({email:e,password:p}));
-}
-
-function doCreateRide(){
- if(!TOKEN){showMsg('cr','You must LOGIN first! Go to LOGIN box!',false);return;}
- var f=document.getElementById('cf').value;
- var t=document.getElementById('ct').value;
- var pr=document.getElementById('cp').value;
- var s=document.getElementById('cs').value;
- showMsg('cr','Creating ride '+f+'->'+t+'...',true);
- var xhr=new XMLHttpRequest();
- xhr.open('POST', API+'/rides', true);
- xhr.setRequestHeader('Content-Type','application/json');
- xhr.setRequestHeader('Authorization','Bearer '+TOKEN);
- xhr.onload=function(){
-  if(xhr.status>=200 && xhr.status<300){showMsg('cr','✅ Ride Created!\n'+xhr.responseText,true);}else{showMsg('cr','Failed '+xhr.status+': '+xhr.responseText,false);}
- };
- xhr.send(JSON.stringify({origin:f,destination:t,date:new Date().toISOString().split('T')[0],price:pr,seats:s}));
-}
-
-function loadRides(){
- var ar=document.getElementById('ar');
- ar.innerHTML='Loading rides from '+API+'/rides ...';
- var xhr=new XMLHttpRequest();
- xhr.open('GET', API+'/rides', true);
- xhr.onload=function(){
-  if(xhr.status>=200 && xhr.status<300){
-   try{var data=JSON.parse(xhr.responseText);var rides=Array.isArray(data)?data:[STRIPPED]'<p>No rides yet - Create one!</p>';return;}var html='<p>'+rides.length+' ride(s) found:</p>';for(var i=0;i<rides.length;i++){var r=rides[i];html+='<div style="border:1px solid #ccc;padding:10px;margin:6px 0;border-radius:8px"><b>'+r.origin+' -> '+r.destination+'</b><br>Price:'+r.price+' Driver:'+(r.driver_name||r.driver)+'<br><button class="btn2" onclick="alert(\'Booked!\')">Book</button></div>';}ar.innerHTML=html;}catch(e){ar.innerHTML='Parse error: '+xhr.responseText;}
-  } else {ar.innerHTML='Error '+xhr.status+': '+xhr.responseText;}
- };
- xhr.onerror=function(){ar.innerHTML='Network error - Wake backend first!';};
- xhr.send();
+function getRides(){
+ var ar=document.getElementById('ar');ar.innerHTML='Loading...';
+ var x=new XMLHttpRequest();x.open('GET',API+'/rides',true);
+ x.onload=function(){ar.innerHTML='<pre style="background:#eee;padding:8px;font-size:11px;white-space:pre-wrap">'+x.responseText+'</pre>';};
+ x.send();
 }
 </script></body></html>
