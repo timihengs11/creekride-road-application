@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI, HTTPException, Depends, Body
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timedelta
@@ -13,7 +13,7 @@ SECRET_KEY = "creekride-secret-2025-bayelsa-to-world"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-app = FastAPI(title="CreekRide Road API - FIXED V2")
+app = FastAPI(title="CreekRide Road API - FINAL V3 WORKING")
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,10 +27,10 @@ app.add_middleware(
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__truncate_error=False)
 
 def get_password_hash(password: str):
-    return pwd_context.hash(password[:72] if isinstance(password, str) else password)
+    return pwd_context.hash(password[:72])
 
 def verify_password(plain: str, hashed: str):
-    return pwd_context.verify(plain[:72] if isinstance(plain, str) else plain, hashed)
+    return pwd_context.verify(plain[:72], hashed)
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -44,7 +44,6 @@ users_db = {}
 rides_db = []
 bookings_db = []
 
-# --- PROPER MODELS SO DOCS SHOW FIELDS ---
 class RegisterIn(BaseModel):
     full_name: str
     email: str
@@ -63,7 +62,7 @@ class RideIn(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message": "CreekRide Bayelsa to the World - Backend LIVE 200 OK - FIXED V2", "rides": len(rides_db), "users": len(users_db)}
+    return {"message": "CreekRide Bayelsa to the World - FINAL V3 LIVE 200 OK", "rides": len(rides_db), "users": len(users_db), "status": "WORKING"}
 
 @app.post("/register")
 def register(data: RegisterIn):
@@ -75,33 +74,13 @@ def register(data: RegisterIn):
     users_db[email] = {"id": user_id, "full_name": data.full_name, "email": email, "password_hash": hashed}
     return {"message": "User registered successfully!", "user_id": user_id, "email": email, "full_name": data.full_name}
 
+# FIXED LOGIN - JSON ONLY - NO FORM DEPENDS!
 @app.post("/login")
-def login(data: LoginIn = None, form_data: OAuth2PasswordRequestForm = Depends()):
-    email = None
-    password = None
-    # Try JSON
-    if data and data.email:
-        email = data.email
-        password = data.password
-    # Try form
-    if form_data and form_data.username:
-        # form_data overrides if present
-        try:
-            if form_data.username and form_data.username != "":
-                email = form_data.username
-                password = form_data.password
-        except:
-            pass
-    # If data is None because using form, get from form_data
-    if not email:
-        if form_data:
-            email = form_data.username
-            password = form_data.password
-    if not email or not password:
-        raise HTTPException(status_code=400, detail="Email and password required")
-    email = email.lower().strip()
+def login(data: LoginIn):
+    email = data.email.lower().strip()
+    password = data.password
     if email not in users_db:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        raise HTTPException(status_code=401, detail="Invalid email or password - user not found")
     user = users_db[email]
     if not verify_password(password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
@@ -113,7 +92,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
         if not email or email not in users_db:
-            raise HTTPException(status_code=401, detail="Invalid token")
+            raise HTTPException(status_code=401, detail="Invalid token - please login again")
         return users_db[email]
     except JWTError:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
@@ -137,3 +116,16 @@ def create_ride(data: RideIn, current_user: dict = Depends(get_current_user)):
     }
     rides_db.append(ride)
     return ride
+
+@app.post("/rides/{ride_id}/book")
+def book_ride(ride_id: str, current_user: dict = Depends(get_current_user)):
+    for ride in rides_db:
+        if ride["id"] == ride_id:
+            booking = {"id": str(uuid.uuid4()), "ride_id": ride_id, "passenger": current_user["email"], "booked_at": datetime.now().isoformat()}
+            bookings_db.append(booking)
+            return {"message": "Ride booked! Bayelsa to the World!", "booking": booking, "ride": ride}
+    raise HTTPException(status_code=404, detail="Ride not found")
+
+@app.get("/bookings")
+def get_bookings(current_user: dict = Depends(get_current_user)):
+    return [b for b in bookings_db if b["passenger"] == current_user["email"]]
