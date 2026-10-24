@@ -1,44 +1,49 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreekRide FINAL WORKING</title>
-<style>body{margin:0;font-family:Arial;background:#eef9f7}.h{background:#0f766e;color:#fff;padding:20px;text-align:center}.tabs{display:flex;gap:8px;padding:12px;background:#fff;border-bottom:3px solid #0f766e}.tabs button{flex:1;padding:12px;border:none;border-radius:20px;background:#e5e7eb;font-weight:bold;cursor:pointer}.tabs button.active{background:#0f766e;color:#fff}.card{margin:12px;background:#fff;padding:20px;border-radius:12px;display:none}.card.show{display:block}input{width:100%;padding:13px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box}.btn{width:100%;padding:14px;background:#0f766e;color:#fff;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer}.btn2{background:#f97316}.res{margin-top:12px;padding:12px;border-radius:8px;display:none;white-space:pre-wrap;font-size:13px}.ok{background:#d1fae5;color:#065f46;display:block}.err{background:#fee2e2;color:#991b1b;display:block}</style></head>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreekRide FINAL V4</title>
+<style>body{margin:0;font-family:Arial;background:#eef9f7}.h{background:#0f766e;color:#fff;padding:18px;text-align:center}.wake{background:#fbbf24;color:#000;padding:10px 18px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;margin-top:8px;font-size:13px}.tabs{display:flex;gap:6px;padding:10px;background:#fff;border-bottom:3px solid #0f766e;overflow:auto}.tabs button{flex:1;min-width:80px;padding:10px;border:none;border-radius:20px;background:#e5e7eb;font-weight:bold;cursor:pointer}.tabs button.active{background:#0f766e;color:#fff}.card{margin:10px;background:#fff;padding:18px;border-radius:12px;display:none}.card.show{display:block}input{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box} .btn{width:100%;padding:13px;background:#0f766e;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer}.btn2{background:#f97316}.res{margin-top:10px;padding:10px;border-radius:8px;display:none;white-space:pre-wrap;font-size:12px;word-break:break-all}.ok{background:#d1fae5;color:#065f46;display:block}.err{background:#fee2e2;color:#991b1b;display:block}</style></head>
 <body>
-<div class="h"><h2>Move Through The Creeks</h2><p>Bayelsa to the World - FINAL V3 WORKING</p><small id="stat">Checking backend...</small></div>
-<div class="tabs"><button id="t1" class="active" onclick="showTab('r1','t1')">Register</button><button id="t2" onclick="showTab('r2','t2')">Login</button><button id="t3" onclick="showTab('r3','t3')">Create Ride</button><button id="t4" onclick="showTab('r4','t4')">Book a Ride</button><button id="t5" onclick="showTab('r5','t5')">Rides</button></div>
-<div id="r1" class="card show"><h3>1. Register</h3><input id="n" placeholder="Full name e.g. James"><input id="e" placeholder="Email e.g. james@bayelsa.com"><input id="p" type="password" placeholder="Password e.g. Pass1234"><button class="btn" id="rb" onclick="reg()">Register LIVE</button><div id="rr" class="res"></div></div>
-<div id="r2" class="card"><h3>2. Login</h3><input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password"><button class="btn" onclick="log()">Login LIVE</button><div id="lr" class="res"></div><div id="tok" style="font-size:11px;color:#666;margin-top:6px"></div></div>
-<div id="r3" class="card"><h3>3. Create Ride (Need Login)</h3><input id="cf" value="Yenagoa"><input id="ct" value="Brass"><input id="cd" type="date"><input id="cp" value="8000"><input id="cs" value="4"><button class="btn" onclick="cre()">Create Ride</button><div id="cr" class="res"></div></div>
-<div id="r4" class="card"><h3>4. Book a Ride</h3><input id="bf" value="Yenagoa"><input id="bt" value="Brass"><button class="btn btn2" onclick="sea()">Search LIVE Rides</button><div id="bl"></div><div id="br" class="res"></div></div>
-<div id="r5" class="card"><h3>5. All Rides LIVE</h3><button class="btn" onclick="load()">Load All</button><div id="al"></div></div>
+<div class="h"><h2>Move Through The Creeks</h2><p>Bayelsa to the World - FINAL V4</p><button class="wake" id="wakeBtn" onclick="wake()">🔴 Click to WAKE Backend (Render sleeps)</button><div id="stat" style="font-size:11px;margin-top:6px">Backend: SLEEPING - Click Wake!</div></div>
+<div class="tabs"><button id="t1" class="active" onclick="tab('r1','t1')">Register</button><button id="t2" onclick="tab('r2','t2')">Login</button><button id="t3" onclick="tab('r3','t3')">Create Ride</button><button id="t4" onclick="tab('r4','t4')">Book a Ride</button><button id="t5" onclick="tab('r5','t5')">Rides</button></div>
+<div id="r1" class="card show"><h3>1. Register - WORKS AFTER WAKE</h3><input id="n" placeholder="Full name e.g. James"><input id="e" placeholder="Email e.g. james@test.com"><input id="p" type="password" placeholder="Password"><button class="btn" onclick="reg()">Register LIVE</button><div id="rr" class="res"></div><p style="font-size:11px;color:#666">If Register does nothing, backend is sleeping. Click WAKE button above, wait 30 sec until green, then Register!</p></div>
+<div id="r2" class="card"><h3>2. Login</h3><input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password"><button class="btn" onclick="log()">Login</button><div id="lr" class="res"></div></div>
+<div id="r3" class="card"><h3>3. Create Ride</h3><input id="cf" value="Yenagoa"><input id="ct" value="Brass"><input id="cd" type="date"><input id="cp" value="8000"><input id="cs" value="4"><button class="btn" onclick="cre()">Create Ride</button><div id="cr" class="res"></div></div>
+<div id="r4" class="card"><h3>4. Book a Ride</h3><input id="bf" value="Yenagoa"><input id="bt" value="Brass"><button class="btn btn2" onclick="sea()">Search</button><div id="bl"></div></div>
+<div id="r5" class="card"><h3>5. All Rides</h3><button class="btn" onclick="load()">Load</button><div id="al"></div></div>
 <script>
-var API='https://creekride-road-application-2.onrender.com';
-var token=localStorage.getItem('ck_tok')||'';
-function showTab(id,bid){document.querySelectorAll('.card').forEach(c=>c.classList.remove('show'));document.getElementById(id).classList.add('show');document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));document.getElementById(bid).classList.add('active');}
+var API='https://creekride-road-application-2.onrender.com';var token=localStorage.getItem('ck_tok')||'';var backendLive=false;
+function tab(id,bid){document.querySelectorAll('.card').forEach(c=>c.classList.remove('show'));document.getElementById(id).classList.add('show');document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));document.getElementById(bid).classList.add('active');}
 function showRes(id,msg,ok){var e=document.getElementById(id);e.style.display='block';e.textContent=msg;e.className='res '+(ok?'ok':'err');}
+async function wake(){
+ var s=document.getElementById('stat');var b=document.getElementById('wakeBtn');
+ s.textContent='Waking backend... Render free tier takes 30-50 sec first time... please wait...';b.textContent='⏳ Waking... Wait 50 sec...';b.style.background='#fef3c7';
+ try{var res=await fetch(API+'/',{method:'GET'});var data=await res.json();backendLive=true;s.textContent='✅ Backend LIVE! '+data.message+' Users:'+data.users+' Rides:'+data.rides+' - Now you can Register!';b.textContent='✅ Backend LIVE! Ready to Register!';b.style.background='#d1fae5';}
+ catch(err){s.textContent='❌ Wake failed: '+err.message+' - Backend still waking, click again in 20 sec';b.textContent='🔴 Click to WAKE Again';b.style.background='#fbbf24';}
+}
 async function reg(){
+ if(!backendLive){showRes('rr','⚠️ Backend is SLEEPING! Click the YELLOW Wake button at top first! Wait until it says LIVE! Then Register again.',false);return;}
  var n=document.getElementById('n').value.trim();var e=document.getElementById('e').value.trim();var p=document.getElementById('p').value.trim();
- if(!n||!e||!p){showRes('rr','Fill name, email, password',false);return;}
- document.getElementById('rb').innerText='Registering...';var r=document.getElementById('rr');r.style.display='block';r.textContent='Sending to '+API+'/register...';r.className='res';
- try{var res=await fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:n,email:e,password:p})});var txt=await res.text();var data;try{data=JSON.parse(txt)}catch{data={raw:txt}};document.getElementById('rb').innerText='Register LIVE';
-  if(res.ok){showRes('rr','SUCCESS 200 OK!\n'+JSON.stringify(data,null,2)+'\nNow go Login! Email auto-filled.',true);document.getElementById('le').value=e;document.getElementById('lp').value=p;setTimeout(()=>showTab('r2','t2'),1000);}else{if(res.status==400){showRes('rr','Already exists! Go Login with same password.\n'+JSON.stringify(data),true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else showRes('rr','Error '+res.status+': '+JSON.stringify(data),false);}
- }catch(err){document.getElementById('rb').innerText='Register LIVE';showRes('rr','Network Error: '+err.message+' - Backend waking up, wait 30s retry',false);}
+ if(!n||!e||!p){showRes('rr','Fill all fields',false);return;}
+ var rr=document.getElementById('rr');rr.style.display='block';rr.textContent='Registering '+e+'...';rr.className='res';
+ try{var res=await fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:n,email:e,password:p})});var txt=await res.text();var data;try{data=JSON.parse(txt)}catch{data={raw:txt}}
+  if(res.ok){showRes('rr','✅ SUCCESS 200 OK!\n'+JSON.stringify(data,null,2)+'\nGo Login now!',true);document.getElementById('le').value=e;document.getElementById('lp').value=p;setTimeout(()=>tab('r2','t2'),1000);}else{if(res.status==400)showRes('rr','Already exists - Go Login!\n'+JSON.stringify(data),true);else showRes('rr','Error '+res.status+': '+JSON.stringify(data),false);}
+ }catch(err){showRes('rr','Network error: '+err.message+' Backend may have slept again - Click Wake button!',false);backendLive=false;document.getElementById('stat').textContent='Backend slept - Click Wake again';}
 }
 async function log(){
- var e=document.getElementById('le').value.trim();var p=document.getElementById('lp').value.trim();if(!e||!p){showRes('lr','Fill email pass',false);return;}
- var lr=document.getElementById('lr');lr.style.display='block';lr.textContent='Logging in...';lr.className='res';
+ if(!backendLive){showRes('lr','Wake backend first!',false);return;}
+ var e=document.getElementById('le').value.trim();var p=document.getElementById('lp').value.trim();
  try{var res=await fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});var txt=await res.text();var data;try{data=JSON.parse(txt)}catch{data={raw:txt}}
-  if(res.ok){token=data.access_token;localStorage.setItem('ck_tok',token);showRes('lr','LOGIN SUCCESS 200 OK! Token saved!\n'+JSON.stringify(data,null,2),true);document.getElementById('tok').textContent='Token: '+token.substring(0,50)+'...';}else showRes('lr','Login failed '+res.status+': '+JSON.stringify(data),false);
+  if(res.ok){token=data.access_token;localStorage.setItem('ck_tok',token);showRes('lr','✅ LOGIN SUCCESS! Token saved!\n'+JSON.stringify(data,null,2),true);}else showRes('lr','Login failed: '+JSON.stringify(data),false);
  }catch(err){showRes('lr','Network: '+err.message,false);}
 }
 async function cre(){
- if(!token){showRes('cr','Login first! Go Login tab',false);showTab('r2','t2');return;}
+ if(!token){showRes('cr','Login first!',false);tab('r2','t2');return;}
  var f=document.getElementById('cf').value;var t=document.getElementById('ct').value;var d=document.getElementById('cd').value;var pr=document.getElementById('cp').value;var s=document.getElementById('cs').value;
  try{var res=await fetch(API+'/rides',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({origin:f,destination:t,date:d||new Date().toISOString().split('T')[0],price:pr,seats:s})});var txt=await res.text();var data;try{data=JSON.parse(txt)}catch{data={raw:txt}}
-  if(res.ok)showRes('cr','Ride Created SUCCESS!\n'+JSON.stringify(data,null,2),true);else{if(res.status==401){showRes('cr','Token expired - Login again',false);showTab('r2','t2');}else showRes('cr','Failed '+res.status+': '+JSON.stringify(data),false);}
+  if(res.ok)showRes('cr','Ride Created!\n'+JSON.stringify(data,null,2),true);else showRes('cr','Failed: '+JSON.stringify(data),false);
  }catch(err){showRes('cr','Error: '+err.message,false);}
 }
-async function sea(){
- var bl=document.getElementById('bl');bl.innerHTML='Loading...';try{var res=await fetch(API+'/rides');var data=await res.json();var rides=Array.isArray(data)?data:[STRIPPED]'<p style="background:#fef3c7;padding:10px;border-radius:8px">No rides yet. Create one first!</p>';return;}var h='';rides.forEach(r=>{h+='<div style="border:1px solid #ddd;padding:12px;border-radius:8px;margin:8px 0"><b>'+r.origin+' -> '+r.destination+'</b><br>Price: '+r.price+' Driver: '+r.driver_name+'<br><button class="btn btn2" onclick="alert(\'Booked! Bayelsa!\')">Book This</button></div>';});bl.innerHTML='<p>'+rides.length+' ride(s) found LIVE:</p>'+h;}catch(err){bl.innerHTML='Error: '+err.message;}}
-async function load(){var al=document.getElementById('al');al.innerHTML='Loading...';try{var res=await fetch(API+'/rides');var data=await res.json();al.innerHTML='<pre style="background:#f3f4f6;padding:10px;border-radius:8px;overflow:auto;font-size:11px">'+JSON.stringify(data,null,2)+'</pre>';}catch(err){al.innerHTML='Error: '+err.message;}}
-fetch(API+'/').then(r=>r.json()).then(d=>{document.getElementById('stat').textContent='Backend LIVE: '+d.message+' - Users:'+d.users+' Rides:'+d.rides;}).catch(()=>{document.getElementById('stat').textContent='Backend waking... wait 30 sec then refresh';});
+async function sea(){var bl=document.getElementById('bl');bl.innerHTML='Loading...';try{var res=await fetch(API+'/rides');var data=await res.json();var rides=Array.isArray(data)?data:[STRIPPED]'No rides yet';return;}var h='';rides.forEach(r=>{h+='<div style="border:1px solid #ddd;padding:10px;margin:6px 0;border-radius:8px"><b>'+r.origin+'->'+r.destination+'</b><br>'+r.price+'<br><button class="btn btn2" onclick="alert(\'Booked Bayelsa!\')">Book</button></div>';});bl.innerHTML=h;}catch(e){bl.innerHTML='Error '+e.message;}}
+async function load(){var al=document.getElementById('al');al.innerHTML='Loading...';try{var res=await fetch(API+'/rides');var data=await res.json();al.innerHTML='<pre style="background:#eee;padding:8px;font-size:11px;overflow:auto">'+JSON.stringify(data,null,2)+'</pre>';}catch(e){al.innerHTML='Error';}}
 document.getElementById('cd').valueAsDate=new Date();
+wake();
 </script></body></html>
