@@ -20,17 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from passlib.context import CryptContext
-import bcrypt
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# Fix for bcrypt 4+ bug
-def get_password_hash(password):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-def verify_password(plain_password, hashed_password):
-    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 users_db = {}
