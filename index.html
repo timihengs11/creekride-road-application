@@ -1,112 +1,102 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreekRide V6 - Moving Car!</title>
+<title>CreekRide V7 - Real Car Forward</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap');
-*{box-sizing:border-box}body{margin:0;font-family:'Outfit',Arial;background:#0f172a;color:#fff;overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#0f766e 0%,#0f172a 55%,#020617 100%)}
-.road-wrap{position:relative;width:100%;height:90px;background:#1e293b;border-bottom:4px dashed #fbbf24;overflow:hidden;box-shadow:inset 0 10px 20px rgba(0,0,0,0.5)}
-.road-line{position:absolute;top:50%;width:200%;height:4px;background:repeating-linear-gradient(90deg,#fff 0 30px,transparent 30px 60px);animation:roadMove 0.6s linear infinite}
-@keyframes roadMove{0%{transform:translateX(0)}100%{transform:translateX(-60px)}}
-.car{position:absolute;top:12px;left:-120px;font-size:52px;animation:drive 6s linear infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,0.6));z-index:2}
-.car2{position:absolute;top:12px;left:-120px;font-size:36px;animation:drive2 8s linear infinite 2s;opacity:0.8;z-index:1}
-@keyframes drive{0%{left:-120px}100%{left:110%}}
-@keyframes drive2{0%{left:-100px}100%{left:110%}}
-.dust{position:absolute;bottom:12px;left:0;width:100%;height:10px;background:radial-gradient(ellipse,#fbbf2433 0%,transparent 70%);animation:dustMove 0.3s linear infinite}
-.hero{text-align:center;padding:18px 15px}
-.hero h1{font-size:28px;font-weight:800;margin:0;background:linear-gradient(90deg,#5eead4,#fbbf24,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.badge{display:inline-block;background:rgba(94,234,212,0.15);border:1px solid #5eead4;color:#5eead4;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;margin-top:6px}
-.wakeBox{margin:12px;background:linear-gradient(135deg,#fbbf24,#f97316);border-radius:16px;padding:12px;text-align:center;color:#000;box-shadow:0 8px 20px rgba(251,191,36,0.4)}
-.wakeBox button{background:#000;color:#fbbf24;border:none;padding:10px 20px;border-radius:20px;font-weight:800;cursor:pointer;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.container{max-width:520px;margin:0 auto;padding:0 12px 40px}
-.card{margin:12px 0;background:rgba(255,255,255,0.96);border-radius:18px;padding:16px;color:#0f172a;box-shadow:0 15px 30px rgba(0,0,0,0.3);position:relative;overflow:hidden;border:1px solid #fff}
-.card:before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#0f766e,#fbbf24,#fb7185)}
-.card h3{margin:0 0 10px;font-size:16px;font-weight:800;display:flex;align-items:center;gap:6px}
-input{width:100%;padding:12px;margin:5px 0;border:2px solid #e2e8f0;border-radius:10px;font-size:15px}
-input:focus{outline:none;border-color:#0f766e}
-.btn{width:100%;padding:13px;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer;box-shadow:0 6px 0 #0f5a54;transition:0.1s}
-.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #0f5a54}
-.btn-orange{background:linear-gradient(135deg,#f97316,#fbbf24);color:#000;box-shadow:0 6px 0 #c2410c}
-.r{margin-top:8px;padding:10px;border-radius:8px;display:none;font-size:12px;white-space:pre-wrap;word-break:break-all;font-weight:600}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0a1214;color:#fff;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#0f3d3e 0%,#0a1214 70%)}
+.road{position:relative;width:100%;height:110px;background:#1a2a2f;border-top:3px solid #2a3a40;border-bottom:3px solid #2a3a40;overflow:hidden}
+.road-center{position:absolute;top:50%;left:0;width:200%;height:0;border-top:4px dashed #fbbf24;opacity:0.9;transform:translateY(-50%);animation:lineMove 0.8s linear infinite}
+@keyframes lineMove{0%{transform:translate(-60px,-50%)}100%{transform:translate(0,-50%)}}
+.car-wrap{position:absolute;top:15px;left:-180px;animation:carDrive 7s linear infinite;z-index:5}
+@keyframes carDrive{0%{left:-180px}100%{left:110%}}
+.car-body{position:relative;width:150px;height:50px;background:linear-gradient(180deg,#14b8a6,#0f766e);border-radius:12px 20px 8px 8px;box-shadow:0 6px 12px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.3);border:2px solid #0a4a4a}
+.car-roof{position:absolute;top:-22px;left:20px;width:70px;height:24px;background:linear-gradient(180deg,#1dd1b3,#0f766e);border-radius:10px 10px 0 0;border:2px solid #0a4a4a;border-bottom:none}
+.window{position:absolute;top:3px;left:6px;width:24px;height:14px;background:linear-gradient(180deg,#a5f3fc,#22d3ee);border-radius:4px;border:1px solid #0a4a4a}
+.window2{left:36px}
+.headlight{position:absolute;right:-4px;top:10px;width:8px;height:12px;background:#fef3c7;border-radius:0 6px 6px 0;box-shadow:0 0 12px #fbbf24, 0 0 20px #fbbf24aa}
+.taillight{position:absolute;left:-4px;top:12px;width:6px;height:8px;background:#ef4444;border-radius:6px 0 0 6px;box-shadow:0 0 8px #ef4444}
+.wheel{position:absolute;bottom:-14px;width:28px;height:28px;background:radial-gradient(circle at 30% 30%,#4b5563,#111827);border-radius:50%;border:3px solid #000;box-shadow:0 3px 0 #000}
+.wheel:after{content:'';position:absolute;top:50%;left:50%;width:12px;height:12px;background:#9ca3af;border-radius:50%;transform:translate(-50%,-50%);border:1px solid #000}
+.wheel:before{content:'';position:absolute;top:50%;left:50%;width:22px;height:22px;border:2px dashed #6b7280;border-radius:50%;transform:translate(-50%,-50%);animation:spin 0.3s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.wheel-front{right:18px}.wheel-back{left:18px}
+.car-wrap2{top:58px;animation:carDrive2 9s linear infinite 1.5s;transform:scaleX(-1)}
+@keyframes carDrive2{0%{left:110%}100%{left:-180px}}
+.car-wrap2 .car-body{background:linear-gradient(180deg,#f97316,#ea580c)}
+.car-wrap2 .car-roof{background:linear-gradient(180deg,#fb923c,#ea580c)}
+.hero{text-align:center;padding:16px}
+.hero h1{margin:0;font-size:26px;font-weight:800;color:#5eead4}
+.badge{display:inline-block;background:#0f766e;color:#5eead4;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #5eead4;margin-top:4px}
+.wake{margin:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:14px;padding:12px;text-align:center;color:#000}
+.wake button{background:#000;color:#fbbf24;border:none;padding:10px 22px;border-radius:22px;font-weight:800;cursor:pointer;font-size:13px}
+#st{font-size:11px;margin-top:6px;font-weight:700}
+.container{max-width:520px;margin:0 auto;padding:0 12px 30px}
+.card{margin:12px 0;background:#ffffff;border-radius:16px;padding:14px;color:#111;box-shadow:0 10px 25px rgba(0,0,0,0.3)}
+.card h3{margin:0 0 10px;font-size:15px;font-weight:800;color:#0f766e}
+input{width:100%;padding:11px;margin:5px 0;border:2px solid #e5e7eb;border-radius:10px;font-size:14px}
+.btn{width:100%;padding:12px;background:#0f766e;color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-o{background:linear-gradient(135deg,#f97316,#fbbf24);color:#000}
+.r{margin-top:8px;padding:10px;border-radius:8px;display:none;font-size:11px;white-space:pre-wrap;word-break:break-all;font-weight:600}
 .ok{background:#dcfce7;color:#14532d;border:2px solid #22c55e;display:block}
 .er{background:#fee2e2;color:#7f1d1d;border:2px solid #ef4444;display:block}
-.rideCard{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #5eead4;border-radius:12px;padding:10px;margin:8px 0;position:relative;animation:slideIn 0.5s ease}
-@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
-.mini-car{position:absolute;right:8px;top:8px;font-size:24px;animation:miniDrive 2s ease-in-out infinite}
-@keyframes miniDrive{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px)}}
+.rideCard{background:#f0fdfa;border:2px solid #99f6e0;border-radius:12px;padding:10px;margin:8px 0}
 </style></head><body>
 <div class="bg"></div>
-<div class="road-wrap">
-<div class="road-line"></div>
-<div class="dust"></div>
-<div class="car">🚙💨</div>
-<div class="car2">🚗</div>
+<div class="road">
+<div class="road-center"></div>
+<div class="car-wrap"><div class="car-body"><div class="car-roof"><div class="window"></div><div class="window window2"></div></div><div class="headlight"></div><div class="taillight"></div><div class="wheel wheel-front"></div><div class="wheel wheel-back"></div></div></div>
+<div class="car-wrap car-wrap2"><div class="car-body"><div class="car-roof"><div class="window"></div><div class="window window2"></div></div><div class="headlight"></div><div class="taillight"></div><div class="wheel wheel-front"></div><div class="wheel wheel-back"></div></div></div>
 </div>
-<div class="hero">
-<h1>Move Through The Creeks 🚙</h1>
-<div class="badge">⚡ BAYELSA • CARS MOVING • LIVE V6</div>
-<p style="color:#94a3b8;font-size:12px;margin:6px 0">Cars driving non-stop! Real Bayelsa road vibes!</p>
-</div>
+<div class="hero"><h1>Move Through The Creeks</h1><p>Bayelsa to the World — Real Cars</p><div class="badge">⚡ V7 REAL CARS • FORWARD • FIXED WAKE</div></div>
 <div class="container">
-<div class="wakeBox">
-<div style="font-weight:800;font-size:12px">⚠️ TAP TO WAKE BACKEND - RENDER SLEEPS!</div>
-<button id="wb" onclick="wake()">🔥 WAKE BACKEND - 40 SEC</button>
-<div id="st" style="font-size:11px;margin-top:6px;font-weight:700">Backend: Tap Wake!</div>
-</div>
-<div class="card"><h3>🚀 REGISTER</h3>
-<input id="rn" placeholder="Full Name"><input id="re" placeholder="Email"><input id="rp" type="password" placeholder="Password">
-<button class="btn" onclick="reg()">JOIN & RIDE →</button><div id="rr" class="r"></div></div>
-<div class="card"><h3>🔑 LOGIN</h3>
-<input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password">
-<button class="btn" onclick="login()">LOGIN 🌊</button><div id="lr" class="r"></div></div>
-<div class="card"><h3>🛣️ CREATE RIDE</h3>
-<div style="display:flex;gap:6px"><input id="cf" value="Yenagoa"><span style="padding:12px">→</span><input id="ct" value="Brass"></div>
-<div style="display:flex;gap:6px"><input id="cp" value="8000" placeholder="Price"><input id="cs" value="4" placeholder="Seats"></div>
-<button class="btn" onclick="createRide()">POST RIDE 🚗</button><div id="cr" class="r"></div></div>
-<div class="card"><h3>⚡ LIVE RIDES - Cars Moving!</h3>
-<button class="btn btn-orange" onclick="getRides()">🔄 REFRESH - SEE CARS!</button><div id="ar" style="margin-top:8px"></div></div>
-<div style="text-align:center;padding:15px;color:#64748b;font-size:10px">Yenagoa → Brass → World • Cars never stop! 🚗💨</div>
+<div class="wake"><div style="font-weight:800;font-size:12px">⚠️ BACKEND SLEEPS - TAP TO WAKE!</div><button id="wb" onclick="wakeBackend()">🔥 WAKE BACKEND - TAP ME</button><div id="st">Tap Wake button - wait 40 sec</div></div>
+<div class="card"><h3>🚀 REGISTER</h3><input id="rn" placeholder="Full Name"><input id="re" placeholder="Email"><input id="rp" type="password" placeholder="Password"><button class="btn" onclick="doRegister()">REGISTER</button><div id="rr" class="r"></div></div>
+<div class="card"><h3>🔑 LOGIN</h3><input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password"><button class="btn" onclick="doLogin()">LOGIN</button><div id="lr" class="r"></div></div>
+<div class="card"><h3>🛣️ CREATE RIDE</h3><div style="display:flex;gap:6px"><input id="cf" value="Yenagoa"><span style="padding:11px">→</span><input id="ct" value="Brass"></div><div style="display:flex;gap:6px"><input id="cp" value="8000"><input id="cs" value="4"></div><button class="btn" onclick="doCreate()">POST RIDE</button><div id="cr" class="r"></div></div>
+<div class="card"><h3>⚡ LIVE RIDES</h3><button class="btn btn-o" onclick="doLoad()">LOAD RIDES</button><div id="ar" style="margin-top:8px"></div></div>
 </div>
 <script>
 var API='https://creekride-road-application-2.onrender.com';var TOKEN='';var LIVE=false;
-function msg(id,t,ok){var e=document.getElementById(id);e.style.display='block';e.textContent=t;e.className='r '+(ok?'ok':'er');}
-function wake(){
- var s=document.getElementById('st'),b=document.getElementById('wb');
- s.textContent='Waking... 40 sec...';b.textContent='⏳ WAKING...';
+function showMsg(id,text,ok){var e=document.getElementById(id);e.style.display='block';e.textContent=text;e.className='r '+(ok?'ok':'er');}
+function wakeBackend(){
+ var s=document.getElementById('st');var b=document.getElementById('wb');
+ s.textContent='Waking backend... 40 sec wait...';b.textContent='WAKING... WAIT 40 SEC...';b.disabled=true;
  var x=new XMLHttpRequest();x.open('GET',API+'/',true);x.timeout=65000;
- x.onload=function(){if(x.status==200){LIVE=true;s.textContent='✅ LIVE! '+x.responseText.substring(0,80);b.textContent='✅ LIVE! RIDE NOW!';b.style.background='#22c55e';}else{s.textContent='Status '+x.status; b.textContent='Tap Wake Again';}};
- x.onerror=function(){s.textContent='Still sleeping - tap again';b.textContent='Tap Again';};x.send();
+ x.onload=function(){b.disabled=false;if(x.status>=200 && x.status<300){LIVE=true;s.textContent='✅ BACKEND LIVE! '+x.responseText.substring(0,90);b.textContent='✅ LIVE! READY!';b.style.background='#22c55e';b.style.color='#fff';}else{s.textContent='Status '+x.status+' - tap Wake again';b.textContent='TAP WAKE AGAIN';}};
+ x.onerror=function(){b.disabled=false;s.textContent='Network - backend still waking, tap again in 20 sec';b.textContent='TAP WAKE AGAIN';};
+ x.ontimeout=function(){b.disabled=false;s.textContent='Timeout - tap again';b.textContent='TAP AGAIN';};x.send();
 }
-function reg(){
- if(!LIVE){msg('rr','Wake first!',false);return;}
+function doRegister(){
+ if(!LIVE){showMsg('rr','Backend sleeping! Tap WAKE button first!',false);return;}
  var n=document.getElementById('rn').value,e=document.getElementById('re').value,p=document.getElementById('rp').value;
- if(!n||!e||!p){msg('rr','Fill all',false);return;}
- msg('rr','Registering...',true);
+ if(!n||!e||!p){showMsg('rr','Fill all fields',false);return;}
+ showMsg('rr','Registering...',true);
  var x=new XMLHttpRequest();x.open('POST',API+'/register',true);x.setRequestHeader('Content-Type','application/json');
- x.onload=function(){if(x.status==200||x.status==201){msg('rr','✅ SUCCESS! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else{if(x.status==400)msg('rr','Already exists! Go Login! '+x.responseText,true);else msg('rr','Error '+x.status+': '+x.responseText,false);}};x.send(JSON.stringify({full_name:n,email:e,password:p}));
+ x.onload=function(){if(x.status==200||x.status==201){showMsg('rr','✅ SUCCESS! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else if(x.status==400){showMsg('rr','Already exists! Go LOGIN! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else showMsg('rr','Error '+x.status+': '+x.responseText,false);};x.onerror=function(){showMsg('rr','Network error',false);LIVE=false;};x.send(JSON.stringify({full_name:n,email:e,password:p}));
 }
-function login(){
- if(!LIVE){msg('lr','Wake first!',false);return;}
+function doLogin(){
+ if(!LIVE){showMsg('lr','Wake backend first!',false);return;}
  var e=document.getElementById('le').value,p=document.getElementById('lp').value;
+ if(!e||!p){showMsg('lr','Fill email pass',false);return;}
+ showMsg('lr','Logging in...',true);
  var x=new XMLHttpRequest();x.open('POST',API+'/login',true);x.setRequestHeader('Content-Type','application/json');
- x.onload=function(){if(x.status==200){var d=JSON.parse(x.responseText);TOKEN=d.access_token;msg('lr','✅ LOGIN SUCCESS! '+x.responseText,true);}else msg('lr','Failed '+x.status+': '+x.responseText,false);};x.send(JSON.stringify({email:e,password:p}));
+ x.onload=function(){if(x.status==200){var d=JSON.parse(x.responseText);TOKEN=d.access_token;showMsg('lr','✅ LOGIN SUCCESS! '+x.responseText,true);}else showMsg('lr','Failed '+x.status+': '+x.responseText,false);};
+ x.send(JSON.stringify({email:e,password:p}));
 }
-function createRide(){
- if(!TOKEN){msg('cr','Login first!',false);return;}
- var f=document.getElementById('cf').value,t=document.getElementById('ct').value,pr=document.getElementById('cp').value,s=document.getElementById('cs').value;
+function doCreate(){
+ if(!TOKEN){showMsg('cr','Login first!',false);return;}
+ var f=document.getElementById('cf').value,t=document.getElementById('ct').value,pr=document.getElementById('cp').value,se=document.getElementById('cs').value;
  var x=new XMLHttpRequest();x.open('POST',API+'/rides',true);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Authorization','Bearer '+TOKEN);
- x.onload=function(){if(x.status==200||x.status==201)msg('cr','✅ RIDE POSTED! '+x.responseText,true);else msg('cr','Failed '+x.status+': '+x.responseText,false);};
- x.send(JSON.stringify({origin:f,destination:t,date:new Date().toISOString().split('T')[0],price:pr,seats:s}));
+ x.onload=function(){if(x.status==200||x.status==201)showMsg('cr','✅ RIDE POSTED! '+x.responseText,true);else showMsg('cr','Failed '+x.status+': '+x.responseText,false);};
+ x.send(JSON.stringify({origin:f,destination:t,date:new Date().toISOString().split('T')[0],price:pr,seats:se}));
 }
-function getRides(){
- var ar=document.getElementById('ar');ar.innerHTML='🌊 Loading...';
+function doLoad(){
+ var ar=document.getElementById('ar');ar.innerHTML='Loading...';
  var x=new XMLHttpRequest();x.open('GET',API+'/rides',true);
  x.onload=function(){
-  try{var data=JSON.parse(x.responseText);var rides=Array.isArray(data)?data:[STRIPPED]'<div style="background:#fef3c7;padding:10px;border-radius:10px;text-align:center">No rides! Be first! 🚗</div>';return;}
-   var html='';for(var i=0;i<rides.length;i++){var r=rides[i];html+='<div class="rideCard"><div class="mini-car">🚙</div><b>'+r.origin+' → '+r.destination+'</b><br>💰 ₦'+r.price+' • 👥 '+r.seats+'<br>👨‍✈️ '+(r.driver_name||r.driver)+'<br><button class="btn btn-orange" style="margin-top:6px;padding:8px" onclick="alert(\\'Booked!\\')">BOOK 🚗</button></div>';}
-   ar.innerHTML=html;
-  }catch(e){ar.innerHTML='<pre>'+x.responseText+'</pre>';}
+  try{var data=JSON.parse(x.responseText);var rides=Array.isArray(data)?data:[STRIPPED]'<div style="background:#fef3c7;padding:10px;border-radius:10px;text-align:center;color:#000">No rides yet!</div>';return;}
+   var h='';for(var i=0;i<rides.length;i++){var r=rides[i];h+='<div class="rideCard"><b>'+r.origin+' → '+r.destination+'</b><br>₦'+r.price+' • '+r.seats+' seats<br>Driver: '+(r.driver_name||r.driver)+'<br><button class="btn btn-o" style="margin-top:6px;padding:8px" onclick="alert(\\'Booked!\\')">BOOK</button></div>';}ar.innerHTML=h;
+  }catch(e){ar.innerHTML='<pre style="background:#eee;padding:8px;color:#000;white-space:pre-wrap">'+x.responseText+'</pre>';}
  };x.send();
 }
 </script></body></html>
