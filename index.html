@@ -1,30 +1,138 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreekRide - Bayelsa</title>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CreekRide Bayelsa</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f0f9f8}
+body{margin:0;font-family:Arial;background:#f0f9f8}
 .h{background:#1a8a7a;color:#fff;padding:18px}
-.h h1{margin:0;font-size:26px;line-height:1.2}
-.h p{margin:6px 0 0;font-size:13px;opacity:0.95}
-.badge{background:#ffd700;color:#000;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:bold;display:inline-block;margin-top:6px}
-.tabs{display:flex;gap:6px;padding:10px;background:#fff;border-bottom:1px solid #ddd;overflow:auto;flex-wrap:wrap}
-.tabs button{padding:8px 14px;border:none;border-radius:20px;background:#eee;cursor:pointer;font-weight:bold;font-size:13px;white-space:nowrap}
+.tabs{display:flex;gap:6px;padding:10px;background:#fff;flex-wrap:wrap}
+.tabs button{padding:8px 14px;border:none;border-radius:20px;background:#eee;font-weight:bold;cursor:pointer}
 .tabs button.active{background:#1a8a7a;color:#fff}
-.card{background:#fff;margin:12px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:none}
-.card.active{display:block}
-input,select{width:100%;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
-.btn{width:100%;padding:13px;background:#1a8a7a;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:bold;cursor:pointer;margin-top:8px}
-.btn2{background:#ff8c00}
-.result{margin-top:10px;padding:10px;border-radius:8px;display:none;word-break:break-all;font-size:13px}
-.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
-.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
-.ride{background:#f9f9f9;padding:10px;border-radius:8px;margin:8px 0;border:1px solid #eee}
-</style></head>
+.card{background:#fff;margin:12px;padding:18px;border-radius:12px;display:none}
+.card.show{display:block}
+input{width:100%;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+.btn{width:100%;padding:13px;background:#1a8a7a;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+.result{margin-top:10px;padding:10px;border-radius:8px;display:none;font-size:13px}
+.success{background:#d4edda}
+.error{background:#f8d7da}
+</style>
+</head>
 <body>
 <div class="h">
-<h1>Move Through<br>The Creeks</h1>
+<h1>Move Through The Creeks</h1>
 <p>Bayelsa to the World - Backend LIVE 200 OK for James!</p>
-<span class="badge">LIVE API - BAYELSA</span>
+<span style="background:gold;color:#000;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:bold">LIVE API BAYELSA</span>
 </div>
+
 <div class="tabs">
-<button class="active" onclick="showTab('reg',this)">Register</button>
-<button onclick="showTab('login',this)">Login
+<button id="b1" class="active" onclick="tab('reg','b1')">Register</button>
+<button id="b2" onclick="tab('log','b2')">Login</button>
+<button id="b3" onclick="tab('cre','b3')">Create Ride</button>
+<button id="b4" onclick="tab('book','b4')">Book a Ride</button>
+<button id="b5" onclick="tab('all','b5')">Rides</button>
+</div>
+
+<div id="reg" class="card show">
+<h3>Create account</h3>
+<input id="rn" placeholder="Full name">
+<input id="re" placeholder="Email">
+<input id="rp" type="password" placeholder="Password">
+<button class="btn" onclick="reg()">Register - Live API</button>
+<div id="rr" class="result"></div>
+</div>
+
+<div id="log" class="card">
+<h3>Login</h3>
+<input id="le" placeholder="Email">
+<input id="lp" type="password" placeholder="Password">
+<button class="btn" onclick="login()">Login</button>
+<div id="lr" class="result"></div>
+</div>
+
+<div id="cre" class="card">
+<h3>Create Ride (Driver)</h3>
+<input id="cf" placeholder="From" value="Yenagoa">
+<input id="ct" placeholder="To" value="Brass">
+<input id="cp" placeholder="Price e.g. 8000">
+<button class="btn" onclick="createRide()">Create Ride</button>
+<div id="cr" class="result"></div>
+</div>
+
+<div id="book" class="card">
+<h3>Book a Ride (Passenger)</h3>
+<input id="bf" placeholder="From" value="Yenagoa">
+<input id="bt" placeholder="To" value="Brass">
+<button class="btn" style="background:#ff8c00" onclick="searchRide()">Search Rides</button>
+<div id="blist" style="margin-top:10px"></div>
+<div id="br" class="result"></div>
+</div>
+
+<div id="all" class="card">
+<h3>All Live Rides</h3>
+<button class="btn" onclick="loadAll()">Refresh Rides</button>
+<div id="alist" style="margin-top:10px"></div>
+</div>
+
+<script>
+var API="https://creekride-road-application-2.onrender.com";
+var token=localStorage.getItem('ck_token')||'';
+function tab(id,bid){
+ var cards=document.querySelectorAll('.card');
+ for(var i=0;i<cards.length;i++){cards[i].classList.remove('show');}
+ document.getElementById(id).classList.add('show');
+ var btns=document.querySelectorAll('.tabs button');
+ for(var j=0;j<btns.length;j++){btns[j].classList.remove('active');}
+ document.getElementById(bid).classList.add('active');
+}
+function show(id,msg,ok){
+ var e=document.getElementById(id);e.style.display='block';e.textContent=msg;e.className='result '+(ok?'success':'error');
+}
+function reg(){
+ var n=document.getElementById('rn').value;
+ var e=document.getElementById('re').value;
+ var p=document.getElementById('rp').value;
+ var r=document.getElementById('rr');r.style.display='block';r.textContent='Registering...';
+ fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:n,email:e,password:p})}).then(function(res){return res.json().then(function(d){return {ok:res.ok,data:d}})}).then(function(obj){show('rr',obj.ok?'200 OK Registered: '+JSON.stringify(obj.data):'Error: '+JSON.stringify(obj.data),obj.ok)}).catch(function(err){show('rr','Error: '+err.message,false)});
+}
+function login(){
+ var e=document.getElementById('le').value;
+ var p=document.getElementById('lp').value;
+ var fd=new FormData();fd.append('username',e);fd.append('password',p);
+ fetch(API+'/login',{method:'POST',body:fd}).then(function(res){return res.json().then(function(d){return {ok:res.ok,data:[STRIPPED]'ck_token',token);show('lr','Login OK!',true)}else{show('lr','Fail: '+JSON.stringify(obj.data),false)}}).catch(function(err){show('lr',err.message,false)});
+}
+function createRide(){
+ if(!token){show('cr','Login first!',false);return}
+ var f=document.getElementById('cf').value;
+ var t=document.getElementById('ct').value;
+ var p=document.getElementById('cp').value;
+ fetch(API+'/rides',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({origin:f,destination:t,price:p})}).then(function(res){return res.json().then(function(data){return {ok:res.ok,data:data}})}).then(function(obj){show('cr',obj.ok?'Ride Created! '+JSON.stringify(obj.data):'Error '+JSON.stringify(obj.data),obj.ok)});
+}
+function searchRide(){
+ var f=document.getElementById('bf').value.toLowerCase();
+ var t=document.getElementById('bt').value.toLowerCase();
+ var list=document.getElementById('blist');list.innerHTML='Searching...';
+ fetch(API+'/rides').then(function(res){return res.json()}).then(function(data){
+  var rides=Array.isArray(data)?data:[STRIPPED]
+  var filtered=[];
+  for(var i=0;i<rides.length;i++){var r=rides[i];var o=(r.origin||'').toLowerCase();var de=(r.destination||'').toLowerCase();if((!f||o.indexOf(f)>=0)&&(!t||de.indexOf(t)>=0)){filtered.push(r);}}
+  if(filtered.length==0){list.innerHTML='<p>No rides for this route. Create one!</p>';return;}
+  var html='';
+  for(var j=0;j<filtered.length;j++){var rr=filtered[j];html+='<div style="background:#f9f9f9;padding:10px;border-radius:8px;margin:6px 0;border:1px solid #eee"><b>'+(rr.origin||'?')+' -> '+(rr.destination||'?')+'</b><br>Date: '+(rr.date||'N/A')+' Price: N'+(rr.price||'?')+'<br><button class="btn" onclick="bookNow()">Book This Ride</button></div>';}
+  list.innerHTML=html;
+ }).catch(function(err){list.innerHTML='Error: '+err.message});
+}
+function bookNow(){
+ if(!token){alert('Please Login first!');tab('log','b2');return;}
+ alert('Ride Booked! (Demo - Login OK, Bayelsa to the World!)');
+ show('br','Ride Booked Successfully! Bayelsa to the World!',true);
+}
+function loadAll(){
+ var el=document.getElementById('alist');el.innerHTML='Loading...';
+ fetch(API+'/rides').then(function(res){return res.json()}).then(function(data){el.innerHTML='<pre style="background:#f5f5f5;padding:10px;overflow:auto;font-size:11px;white-space:pre-wrap">'+JSON.stringify(data,null,2)+'</pre>';});
+}
+</script>
+</body>
+</html>
+</html>
