@@ -1,102 +1,187 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreekRide V7 - Real Car Forward</title>
+<title>CreekRide V8 - Fixed Clicks + Real Cars</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0a1214;color:#fff;overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#0f3d3e 0%,#0a1214 70%)}
-.road{position:relative;width:100%;height:110px;background:#1a2a2f;border-top:3px solid #2a3a40;border-bottom:3px solid #2a3a40;overflow:hidden}
-.road-center{position:absolute;top:50%;left:0;width:200%;height:0;border-top:4px dashed #fbbf24;opacity:0.9;transform:translateY(-50%);animation:lineMove 0.8s linear infinite}
-@keyframes lineMove{0%{transform:translate(-60px,-50%)}100%{transform:translate(0,-50%)}}
-.car-wrap{position:absolute;top:15px;left:-180px;animation:carDrive 7s linear infinite;z-index:5}
-@keyframes carDrive{0%{left:-180px}100%{left:110%}}
-.car-body{position:relative;width:150px;height:50px;background:linear-gradient(180deg,#14b8a6,#0f766e);border-radius:12px 20px 8px 8px;box-shadow:0 6px 12px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.3);border:2px solid #0a4a4a}
-.car-roof{position:absolute;top:-22px;left:20px;width:70px;height:24px;background:linear-gradient(180deg,#1dd1b3,#0f766e);border-radius:10px 10px 0 0;border:2px solid #0a4a4a;border-bottom:none}
-.window{position:absolute;top:3px;left:6px;width:24px;height:14px;background:linear-gradient(180deg,#a5f3fc,#22d3ee);border-radius:4px;border:1px solid #0a4a4a}
-.window2{left:36px}
-.headlight{position:absolute;right:-4px;top:10px;width:8px;height:12px;background:#fef3c7;border-radius:0 6px 6px 0;box-shadow:0 0 12px #fbbf24, 0 0 20px #fbbf24aa}
-.taillight{position:absolute;left:-4px;top:12px;width:6px;height:8px;background:#ef4444;border-radius:6px 0 0 6px;box-shadow:0 0 8px #ef4444}
-.wheel{position:absolute;bottom:-14px;width:28px;height:28px;background:radial-gradient(circle at 30% 30%,#4b5563,#111827);border-radius:50%;border:3px solid #000;box-shadow:0 3px 0 #000}
-.wheel:after{content:'';position:absolute;top:50%;left:50%;width:12px;height:12px;background:#9ca3af;border-radius:50%;transform:translate(-50%,-50%);border:1px solid #000}
-.wheel:before{content:'';position:absolute;top:50%;left:50%;width:22px;height:22px;border:2px dashed #6b7280;border-radius:50%;transform:translate(-50%,-50%);animation:spin 0.3s linear infinite}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#0a1214;color:#fff}
+.bg{position:fixed;inset:0;z-index:-2;background:#0f2e2e}
+.road{position:relative;width:100%;height:100px;background:#1e293b;overflow:hidden;border-bottom:3px solid #fbbf24}
+.road-line{position:absolute;top:50%;left:0;width:200%;border-top:4px dashed #fbbf24;animation:lineMove 0.8s linear infinite}
+@keyframes lineMove{0%{transform:translateX(-60px)}100%{transform:translateX(0)}}
+.car1{position:absolute;top:10px;left:-160px;width:140px;height:46px;background:linear-gradient(#14b8a6,#0f766e);border-radius:10px 18px 6px 6px;border:2px solid #000;animation:drive1 7s linear infinite}
+.car1:before{content:'';position:absolute;top:-18px;left:18px;width:60px;height:20px;background:#0f766e;border-radius:8px 8px 0 0;border:2px solid #000;border-bottom:none}
+.wheel{position:absolute;bottom:-12px;width:24px;height:24px;background:#111;border-radius:50%;border:2px solid #000}
+.wheel:before{content:'';position:absolute;top:50%;left:50%;width:20px;height:20px;border:2px dashed #888;border-radius:50%;transform:translate(-50%,-50%);animation:spin 0.25s linear infinite}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.wheel-front{right:18px}.wheel-back{left:18px}
-.car-wrap2{top:58px;animation:carDrive2 9s linear infinite 1.5s;transform:scaleX(-1)}
-@keyframes carDrive2{0%{left:110%}100%{left:-180px}}
-.car-wrap2 .car-body{background:linear-gradient(180deg,#f97316,#ea580c)}
-.car-wrap2 .car-roof{background:linear-gradient(180deg,#fb923c,#ea580c)}
-.hero{text-align:center;padding:16px}
-.hero h1{margin:0;font-size:26px;font-weight:800;color:#5eead4}
-.badge{display:inline-block;background:#0f766e;color:#5eead4;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #5eead4;margin-top:4px}
-.wake{margin:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:14px;padding:12px;text-align:center;color:#000}
-.wake button{background:#000;color:#fbbf24;border:none;padding:10px 22px;border-radius:22px;font-weight:800;cursor:pointer;font-size:13px}
-#st{font-size:11px;margin-top:6px;font-weight:700}
+.w1{right:15px}.w2{left:15px}
+@keyframes drive1{0%{left:-160px}100%{left:105%}}
+.car2{position:absolute;top:55px;left:105%;width:130px;height:42px;background:linear-gradient(#f97316,#ea580c);border-radius:10px 18px 6px 6px;border:2px solid #000;animation:drive2 8s linear infinite 1s}
+.car2:before{content:'';position:absolute;top:-16px;left:16px;width:55px;height:18px;background:#ea580c;border-radius:8px 8px 0 0;border:2px solid #000;border-bottom:none}
+@keyframes drive2{0%{left:105%}100%{left:-160px}}
+.hero{text-align:center;padding:14px}
+.hero h1{margin:0;font-size:24px;color:#5eead4}
+.badge{background:#0f766e;color:#5eead4;padding:4px 10px;border-radius:12px;font-size:10px;border:1px solid #5eead4}
+.wake{margin:12px;background:#fbbf24;border-radius:12px;padding:12px;text-align:center;color:#000}
+.wake button{background:#000;color:#fbbf24;border:none;padding:10px 20px;border-radius:20px;font-weight:800;cursor:pointer;display:block;width:100%;margin:8px 0 0 0;font-size:14px}
+.wake button:disabled{opacity:0.5}
+#st{font-size:11px;font-weight:700;margin-top:6px}
 .container{max-width:520px;margin:0 auto;padding:0 12px 30px}
-.card{margin:12px 0;background:#ffffff;border-radius:16px;padding:14px;color:#111;box-shadow:0 10px 25px rgba(0,0,0,0.3)}
-.card h3{margin:0 0 10px;font-size:15px;font-weight:800;color:#0f766e}
-input{width:100%;padding:11px;margin:5px 0;border:2px solid #e5e7eb;border-radius:10px;font-size:14px}
-.btn{width:100%;padding:12px;background:#0f766e;color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer}
-.btn-o{background:linear-gradient(135deg,#f97316,#fbbf24);color:#000}
+.card{margin:12px 0;background:#fff;border-radius:14px;padding:14px;color:#111}
+.card h3{margin:0 0 10px;font-size:14px;color:#0f766e}
+input{width:100%;padding:11px;margin:5px 0;border:2px solid #ddd;border-radius:8px;font-size:14px}
+.btn{width:100%;padding:12px;background:#0f766e;color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;margin-top:6px;font-size:14px}
+.btn:active{background:#000}
+.btn-o{background:#f97316;color:#000}
 .r{margin-top:8px;padding:10px;border-radius:8px;display:none;font-size:11px;white-space:pre-wrap;word-break:break-all;font-weight:600}
 .ok{background:#dcfce7;color:#14532d;border:2px solid #22c55e;display:block}
 .er{background:#fee2e2;color:#7f1d1d;border:2px solid #ef4444;display:block}
-.rideCard{background:#f0fdfa;border:2px solid #99f6e0;border-radius:12px;padding:10px;margin:8px 0}
+.rideCard{background:#f0fdfa;border:2px solid #99f6e0;border-radius:10px;padding:10px;margin:8px 0}
 </style></head><body>
 <div class="bg"></div>
 <div class="road">
-<div class="road-center"></div>
-<div class="car-wrap"><div class="car-body"><div class="car-roof"><div class="window"></div><div class="window window2"></div></div><div class="headlight"></div><div class="taillight"></div><div class="wheel wheel-front"></div><div class="wheel wheel-back"></div></div></div>
-<div class="car-wrap car-wrap2"><div class="car-body"><div class="car-roof"><div class="window"></div><div class="window window2"></div></div><div class="headlight"></div><div class="taillight"></div><div class="wheel wheel-front"></div><div class="wheel wheel-back"></div></div></div>
+<div class="road-line"></div>
+<div class="car1"><div class="wheel w1"></div><div class="wheel w2"></div></div>
+<div class="car2"><div class="wheel w1"></div><div class="wheel w2"></div></div>
 </div>
-<div class="hero"><h1>Move Through The Creeks</h1><p>Bayelsa to the World — Real Cars</p><div class="badge">⚡ V7 REAL CARS • FORWARD • FIXED WAKE</div></div>
+<div class="hero"><h1>Move Through The Creeks</h1><div class="badge">V8 REAL CARS - CLICKS FIXED</div></div>
 <div class="container">
-<div class="wake"><div style="font-weight:800;font-size:12px">⚠️ BACKEND SLEEPS - TAP TO WAKE!</div><button id="wb" onclick="wakeBackend()">🔥 WAKE BACKEND - TAP ME</button><div id="st">Tap Wake button - wait 40 sec</div></div>
-<div class="card"><h3>🚀 REGISTER</h3><input id="rn" placeholder="Full Name"><input id="re" placeholder="Email"><input id="rp" type="password" placeholder="Password"><button class="btn" onclick="doRegister()">REGISTER</button><div id="rr" class="r"></div></div>
-<div class="card"><h3>🔑 LOGIN</h3><input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password"><button class="btn" onclick="doLogin()">LOGIN</button><div id="lr" class="r"></div></div>
-<div class="card"><h3>🛣️ CREATE RIDE</h3><div style="display:flex;gap:6px"><input id="cf" value="Yenagoa"><span style="padding:11px">→</span><input id="ct" value="Brass"></div><div style="display:flex;gap:6px"><input id="cp" value="8000"><input id="cs" value="4"></div><button class="btn" onclick="doCreate()">POST RIDE</button><div id="cr" class="r"></div></div>
-<div class="card"><h3>⚡ LIVE RIDES</h3><button class="btn btn-o" onclick="doLoad()">LOAD RIDES</button><div id="ar" style="margin-top:8px"></div></div>
+<div class="wake">
+<div style="font-weight:800;font-size:12px">TAP TO WAKE BACKEND</div>
+<button type="button" id="wakeBtn" onclick="wakeBackend()">WAKE BACKEND - CLICK ME</button>
+<div id="st">Backend: Click Wake button!</div>
+</div>
+<div class="card"><h3>REGISTER</h3>
+<input id="rn" placeholder="Full Name"><input id="re" placeholder="Email"><input id="rp" type="password" placeholder="Password">
+<button type="button" class="btn" onclick="doRegister()">REGISTER - CLICK ME</button><div id="rr" class="r"></div></div>
+<div class="card"><h3>LOGIN</h3>
+<input id="le" placeholder="Email"><input id="lp" type="password" placeholder="Password">
+<button type="button" class="btn" onclick="doLogin()">LOGIN - CLICK ME</button><div id="lr" class="r"></div></div>
+<div class="card"><h3>CREATE RIDE</h3>
+<div style="display:flex;gap:6px"><input id="cf" value="Yenagoa"><span style="padding:11px">→</span><input id="ct" value="Brass"></div>
+<div style="display:flex;gap:6px"><input id="cp" value="8000"><input id="cs" value="4"></div>
+<button type="button" class="btn" onclick="doCreate()">POST RIDE - CLICK ME</button><div id="cr" class="r"></div></div>
+<div class="card"><h3>LIVE RIDES</h3>
+<button type="button" class="btn btn-o" onclick="doLoad()">LOAD RIDES - CLICK ME</button><div id="ar" style="margin-top:8px"></div></div>
 </div>
 <script>
-var API='https://creekride-road-application-2.onrender.com';var TOKEN='';var LIVE=false;
-function showMsg(id,text,ok){var e=document.getElementById(id);e.style.display='block';e.textContent=text;e.className='r '+(ok?'ok':'er');}
+var API='https://creekride-road-application-2.onrender.com';
+var TOKEN='';
+var LIVE=false;
+function showMsg(id,text,ok){
+ var e=document.getElementById(id);
+ if(!e){alert(text);return;}
+ e.style.display='block';
+ e.textContent=text;
+ e.className='r '+(ok?'ok':'er');
+}
 function wakeBackend(){
- var s=document.getElementById('st');var b=document.getElementById('wb');
- s.textContent='Waking backend... 40 sec wait...';b.textContent='WAKING... WAIT 40 SEC...';b.disabled=true;
- var x=new XMLHttpRequest();x.open('GET',API+'/',true);x.timeout=65000;
- x.onload=function(){b.disabled=false;if(x.status>=200 && x.status<300){LIVE=true;s.textContent='✅ BACKEND LIVE! '+x.responseText.substring(0,90);b.textContent='✅ LIVE! READY!';b.style.background='#22c55e';b.style.color='#fff';}else{s.textContent='Status '+x.status+' - tap Wake again';b.textContent='TAP WAKE AGAIN';}};
- x.onerror=function(){b.disabled=false;s.textContent='Network - backend still waking, tap again in 20 sec';b.textContent='TAP WAKE AGAIN';};
- x.ontimeout=function(){b.disabled=false;s.textContent='Timeout - tap again';b.textContent='TAP AGAIN';};x.send();
+ var s=document.getElementById('st');
+ var b=document.getElementById('wakeBtn');
+ if(!s||!b){alert('Page error - reload!');return;}
+ s.textContent='Waking... 40 sec... please wait...';
+ b.textContent='WAKING... WAIT 40 SEC...';
+ b.disabled=true;
+ var x=new XMLHttpRequest();
+ x.open('GET',API+'/',true);
+ x.timeout=65000;
+ x.onload=function(){
+  b.disabled=false;
+  if(x.status>=200 && x.status<300){
+   LIVE=true;
+   s.textContent='✅ BACKEND LIVE! '+x.responseText.substring(0,100);
+   b.textContent='✅ LIVE! READY TO REGISTER!';
+   b.style.background='#22c55e';
+   b.style.color='#fff';
+  }else{
+   s.textContent='Status '+x.status+' - click Wake again';
+   b.textContent='TAP WAKE AGAIN';
+  }
+ };
+ x.onerror=function(){
+  b.disabled=false;
+  s.textContent='Network error - backend still sleeping, tap again in 20 sec';
+  b.textContent='TAP WAKE AGAIN';
+ };
+ x.ontimeout=function(){
+  b.disabled=false;
+  s.textContent='Timeout - Render slow, tap again';
+  b.textContent='TAP AGAIN';
+ };
+ x.send();
 }
 function doRegister(){
- if(!LIVE){showMsg('rr','Backend sleeping! Tap WAKE button first!',false);return;}
- var n=document.getElementById('rn').value,e=document.getElementById('re').value,p=document.getElementById('rp').value;
- if(!n||!e||!p){showMsg('rr','Fill all fields',false);return;}
- showMsg('rr','Registering...',true);
- var x=new XMLHttpRequest();x.open('POST',API+'/register',true);x.setRequestHeader('Content-Type','application/json');
- x.onload=function(){if(x.status==200||x.status==201){showMsg('rr','✅ SUCCESS! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else if(x.status==400){showMsg('rr','Already exists! Go LOGIN! '+x.responseText,true);document.getElementById('le').value=e;document.getElementById('lp').value=p;}else showMsg('rr','Error '+x.status+': '+x.responseText,false);};x.onerror=function(){showMsg('rr','Network error',false);LIVE=false;};x.send(JSON.stringify({full_name:n,email:e,password:p}));
+ if(!LIVE){showMsg('rr','Tap WAKE button first! Wait until green ✅',false);return;}
+ var n=document.getElementById('rn').value;
+ var e=document.getElementById('re').value;
+ var p=document.getElementById('rp').value;
+ if(!n||!e||!p){showMsg('rr','Fill name, email, password',false);return;}
+ showMsg('rr','Registering '+e+'...',true);
+ var x=new XMLHttpRequest();
+ x.open('POST',API+'/register',true);
+ x.setRequestHeader('Content-Type','application/json');
+ x.onload=function(){
+  if(x.status==200||x.status==201){
+   showMsg('rr','✅ SUCCESS! '+x.responseText,true);
+   document.getElementById('le').value=e;
+   document.getElementById('lp').value=p;
+  }else if(x.status==400){
+   showMsg('rr','Already exists! Go LOGIN! '+x.responseText,true);
+   document.getElementById('le').value=e;
+   document.getElementById('lp').value=p;
+  }else{
+   showMsg('rr','Error '+x.status+': '+x.responseText,false);
+  }
+ };
+ x.onerror=function(){showMsg('rr','Network error - wake again',false);LIVE=false;};
+ x.send(JSON.stringify({full_name:n,email:e,password:p}));
 }
 function doLogin(){
  if(!LIVE){showMsg('lr','Wake backend first!',false);return;}
- var e=document.getElementById('le').value,p=document.getElementById('lp').value;
- if(!e||!p){showMsg('lr','Fill email pass',false);return;}
+ var e=document.getElementById('le').value;
+ var p=document.getElementById('lp').value;
+ if(!e||!p){showMsg('lr','Fill email and password',false);return;}
  showMsg('lr','Logging in...',true);
- var x=new XMLHttpRequest();x.open('POST',API+'/login',true);x.setRequestHeader('Content-Type','application/json');
- x.onload=function(){if(x.status==200){var d=JSON.parse(x.responseText);TOKEN=d.access_token;showMsg('lr','✅ LOGIN SUCCESS! '+x.responseText,true);}else showMsg('lr','Failed '+x.status+': '+x.responseText,false);};
+ var x=new XMLHttpRequest();
+ x.open('POST',API+'/login',true);
+ x.setRequestHeader('Content-Type','application/json');
+ x.onload=function(){
+  if(x.status==200){
+   try{var d=JSON.parse(x.responseText);TOKEN=d.access_token;showMsg('lr','✅ LOGIN SUCCESS! Token saved!\n'+x.responseText,true);}
+   catch(err){showMsg('lr','Login OK: '+x.responseText,true);}
+  }else{showMsg('lr','Failed '+x.status+': '+x.responseText,false);}
+ };
  x.send(JSON.stringify({email:e,password:p}));
 }
 function doCreate(){
- if(!TOKEN){showMsg('cr','Login first!',false);return;}
- var f=document.getElementById('cf').value,t=document.getElementById('ct').value,pr=document.getElementById('cp').value,se=document.getElementById('cs').value;
- var x=new XMLHttpRequest();x.open('POST',API+'/rides',true);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Authorization','Bearer '+TOKEN);
- x.onload=function(){if(x.status==200||x.status==201)showMsg('cr','✅ RIDE POSTED! '+x.responseText,true);else showMsg('cr','Failed '+x.status+': '+x.responseText,false);};
+ if(!TOKEN){showMsg('cr','Login first! Need token',false);return;}
+ var f=document.getElementById('cf').value;
+ var t=document.getElementById('ct').value;
+ var pr=document.getElementById('cp').value;
+ var se=document.getElementById('cs').value;
+ var x=new XMLHttpRequest();
+ x.open('POST',API+'/rides',true);
+ x.setRequestHeader('Content-Type','application/json');
+ x.setRequestHeader('Authorization','Bearer '+TOKEN);
+ x.onload=function(){
+  if(x.status==200||x.status==201)showMsg('cr','✅ RIDE POSTED! '+x.responseText,true);
+  else showMsg('cr','Failed '+x.status+': '+x.responseText,false);
+ };
  x.send(JSON.stringify({origin:f,destination:t,date:new Date().toISOString().split('T')[0],price:pr,seats:se}));
 }
 function doLoad(){
- var ar=document.getElementById('ar');ar.innerHTML='Loading...';
- var x=new XMLHttpRequest();x.open('GET',API+'/rides',true);
+ var ar=document.getElementById('ar');
+ ar.innerHTML='Loading rides...';
+ var x=new XMLHttpRequest();
+ x.open('GET',API+'/rides',true);
  x.onload=function(){
-  try{var data=JSON.parse(x.responseText);var rides=Array.isArray(data)?data:[STRIPPED]'<div style="background:#fef3c7;padding:10px;border-radius:10px;text-align:center;color:#000">No rides yet!</div>';return;}
-   var h='';for(var i=0;i<rides.length;i++){var r=rides[i];h+='<div class="rideCard"><b>'+r.origin+' → '+r.destination+'</b><br>₦'+r.price+' • '+r.seats+' seats<br>Driver: '+(r.driver_name||r.driver)+'<br><button class="btn btn-o" style="margin-top:6px;padding:8px" onclick="alert(\\'Booked!\\')">BOOK</button></div>';}ar.innerHTML=h;
-  }catch(e){ar.innerHTML='<pre style="background:#eee;padding:8px;color:#000;white-space:pre-wrap">'+x.responseText+'</pre>';}
- };x.send();
+  try{
+   var data=JSON.parse(x.responseText);
+   var rides=Array.isArray(data)?data:[STRIPPED]
+   if(rides.length==0){ar.innerHTML='<div style="background:#fef3c7;padding:10px;border-radius:10px;text-align:center;color:#000">No rides yet! Be first!</div>';return;}
+   var h='';for(var i=0;i<rides.length;i++){var r=rides[i];h+='<div class="rideCard"><b>'+r.origin+' → '+r.destination+'</b><br>₦'+r.price+' • '+r.seats+' seats<br>Driver: '+(r.driver_name||r.driver)+'</div>';}
+   ar.innerHTML=h;
+  }catch(e){ar.innerHTML='<pre style="background:#eee;color:#000;white-space:pre-wrap;padding:8px">'+x.responseText+'</pre>';}
+ };
+ x.onerror=function(){ar.innerHTML='Network error - wake backend';};
+ x.send();
 }
 </script></body></html>
