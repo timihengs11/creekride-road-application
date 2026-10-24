@@ -13,17 +13,31 @@ body{margin:0;font-family:Arial;background:#f0f9f8}
 .card{background:#fff;margin:12px;padding:18px;border-radius:12px;display:none}
 .card.show{display:block}
 input{width:100%;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
-.btn{width:100%;padding:13px;background:#1a8a7a;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
-.result{margin-top:10px;padding:10px;border-radius:8px;display:none;font-size:13px}
-.success{background:#d4edda}
-.error{background:#f8d7da}
-</style>
-</head>
+.btn{width:100%;padding:13px;background:#1a8a7a;color:#fff;bor…
+[14:15, 24/10/2026] Timmy Hengs: <!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreekRide Bayelsa FINAL</title>
+<style>
+body{margin:0;font-family:Arial;background:#f0f9f8}
+.h{background:#1a8a7a;color:#fff;padding:18px}
+.tabs{display:flex;gap:6px;padding:10px;background:#fff;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.tabs button{padding:8px 14px;border:none;border-radius:20px;background:#eee;font-weight:bold;cursor:pointer;font-size:13px}
+.tabs button.active{background:#1a8a7a;color:#fff}
+.card{background:#fff;margin:12px;padding:18px;border-radius:12px;display:none;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.card.show{display:block}
+input{width:100%;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+.btn{width:100%;padding:13px;background:#1a8a7a;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+.btn2{background:#ff8c00}
+.result{margin-top:10px;padding:10px;border-radius:8px;display:none;font-size:13px;word-break:break-all}
+.success{background:#d4edda;color:#155724;border:1px solid #a3d9a5}
+.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
+.small{font-size:12px;color:#666;margin-top:6px}
+</style></head>
 <body>
 <div class="h">
 <h1>Move Through The Creeks</h1>
 <p>Bayelsa to the World - Backend LIVE 200 OK for James!</p>
-<span style="background:gold;color:#000;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:bold">LIVE API BAYELSA</span>
+<span style="background:gold;color:#000;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:bold">LIVE API BAYELSA FINAL</span>
+<div id="status" class="small">Backend: checking...</div>
 </div>
 
 <div class="tabs">
@@ -35,43 +49,46 @@ input{width:100%;padding:11px;margin:7px 0;border:1px solid #ccc;border-radius:8
 </div>
 
 <div id="reg" class="card show">
-<h3>Create account</h3>
-<input id="rn" placeholder="Full name">
-<input id="re" placeholder="Email">
-<input id="rp" type="password" placeholder="Password">
-<button class="btn" onclick="reg()">Register - Live API</button>
+<h3>1. Create Account</h3>
+<input id="rn" placeholder="Full name (e.g. James)">
+<input id="re" placeholder="Email (e.g. james@bayelsa.com)">
+<input id="rp" type="password" placeholder="Password (min 6 chars)">
+<button class="btn" onclick="doReg()">Register - Live API</button>
 <div id="rr" class="result"></div>
+<div class="small">After register, go to Login tab</div>
 </div>
 
 <div id="log" class="card">
-<h3>Login</h3>
+<h3>2. Login</h3>
 <input id="le" placeholder="Email">
 <input id="lp" type="password" placeholder="Password">
-<button class="btn" onclick="login()">Login</button>
+<button class="btn" onclick="doLogin()">Login</button>
 <div id="lr" class="result"></div>
+<div id="tokenShow" class="small"></div>
 </div>
 
 <div id="cre" class="card">
-<h3>Create Ride (Driver)</h3>
+<h3>3. Create Ride (Driver)</h3>
 <input id="cf" placeholder="From" value="Yenagoa">
 <input id="ct" placeholder="To" value="Brass">
-<input id="cp" placeholder="Price e.g. 8000">
-<button class="btn" onclick="createRide()">Create Ride</button>
+<input id="cp" placeholder="Price e.g. 8000" value="8000">
+<input id="cs" placeholder="Seats e.g. 4" value="4">
+<button class="btn" onclick="doCreate()">Create Ride</button>
 <div id="cr" class="result"></div>
 </div>
 
 <div id="book" class="card">
-<h3>Book a Ride (Passenger)</h3>
-<input id="bf" placeholder="From" value="Yenagoa">
-<input id="bt" placeholder="To" value="Brass">
-<button class="btn" style="background:#ff8c00" onclick="searchRide()">Search Rides</button>
-<div id="blist" style="margin-top:10px"></div>
+<h3>4. Book a Ride (Passenger)</h3>
+<input id="bf" placeholder="From search" value="Yenagoa">
+<input id="bt" placeholder="To search" value="Brass">
+<button class="btn btn2" onclick="doSearch()">Search Rides</button>
+<div id="blist" style="margin-top:12px"></div>
 <div id="br" class="result"></div>
 </div>
 
 <div id="all" class="card">
-<h3>All Live Rides</h3>
-<button class="btn" onclick="loadAll()">Refresh Rides</button>
+<h3>5. All Live Rides</h3>
+<button class="btn" onclick="doLoad()">Refresh Rides</button>
 <div id="alist" style="margin-top:10px"></div>
 </div>
 
@@ -87,51 +104,101 @@ function tab(id,bid){
  document.getElementById(bid).classList.add('active');
 }
 function show(id,msg,ok){
- var e=document.getElementById(id);e.style.display='block';e.textContent=msg;e.className='result '+(ok?'success':'error');
+ var e=document.getElementById(id);
+ e.style.display='block';
+ e.textContent=msg;
+ e.className='result '+(ok?'success':'error');
 }
-function reg(){
- var n=document.getElementById('rn').value;
- var e=document.getElementById('re').value;
- var p=document.getElementById('rp').value;
- var r=document.getElementById('rr');r.style.display='block';r.textContent='Registering...';
- fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:n,email:e,password:p})}).then(function(res){return res.json().then(function(d){return {ok:res.ok,data:d}})}).then(function(obj){show('rr',obj.ok?'200 OK Registered: '+JSON.stringify(obj.data):'Error: '+JSON.stringify(obj.data),obj.ok)}).catch(function(err){show('rr','Error: '+err.message,false)});
+function setStatus(msg){document.getElementById('status').textContent=msg;}
+function doReg(){
+ var n=document.getElementById('rn').value.trim();
+ var e=document.getElementById('re').value.trim();
+ var p=document.getElementById('rp').value.trim();
+ if(!n||!e||!p){show('rr','Fill all fields!',false);return;}
+ var rr=document.getElementById('rr');
+ rr.style.display='block';rr.className='result';rr.textContent='Registering '+e+' ...';
+ setStatus('Registering...');
+ fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:n,email:e,password:p})})
+ .then(function(res){return res.json().then(function(d){return {ok:res.ok,status:res.status,data:[STRIPPED]
+ .then(function(obj){
+   if(obj.ok){
+     show('rr','SUCCESS 200 OK Registered: '+JSON.stringify(obj.data)+' - Now go to Login tab!',true);
+     setStatus('Registered OK: '+e);
+     document.getElementById('le').value=e;
+     document.getElementById('lp').value=p;
+   } else {
+     show('rr','Register Error '+obj.status+': '+JSON.stringify(obj.data)+' - Try different email or login if already registered',false);
+   }
+ });
 }
-function login(){
- var e=document.getElementById('le').value;
- var p=document.getElementById('lp').value;
- var fd=new FormData();fd.append('username',e);fd.append('password',p);
- fetch(API+'/login',{method:'POST',body:fd}).then(function(res){return res.json().then(function(d){return {ok:res.ok,data:[STRIPPED]'ck_token',token);show('lr','Login OK!',true)}else{show('lr','Fail: '+JSON.stringify(obj.data),false)}}).catch(function(err){show('lr',err.message,false)});
+function doLogin(){
+ var e=document.getElementById('le').value.trim();
+ var p=document.getElementById('lp').value.trim();
+ if(!e||!p){show('lr','Fill email & password!',false);return;}
+ var lr=document.getElementById('lr');
+ lr.style.display='block';lr.className='result';lr.textContent='Logging in...';
+ setStatus('Logging in...');
+ fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})})
+ .then(function(res){return res.json().then(function(d){return {ok:res.ok,status:res.status,data:[STRIPPED]
+ .then(function(obj){
+   if(obj.ok){
+     token=obj.data.access_token||obj.data.token||obj.data.accessToken||JSON.stringify(obj.data);
+     localStorage.setItem('ck_token',token);
+     show('lr','LOGIN SUCCESS 200 OK! Token saved. Now you can Create Ride & Book!',true);
+     document.getElementById('tokenShow').textContent='Token: '+token.substring(0,30)+'... saved!';
+     setStatus('Logged in as '+e);
+   } else {
+     var fd=new FormData();fd.append('username',e);fd.append('password',p);
+     return fetch(API+'/login',{method:'POST',body:fd}).then(function(res2){return res2.json().then(function(d2){return {ok:res2.ok,status:res2.status,data:[STRIPPED]
+       if(obj2.ok){
+         token=obj2.data.access_token||obj2.data.token||JSON.stringify(obj2.data);
+         localStorage.setItem('ck_token',token);
+         show('lr','LOGIN SUCCESS (form) Token saved!',true);
+       } else {
+         show('lr','Login failed '+obj.status+': '+JSON.stringify(obj.data),false);
+       }
+     });
+   }
+ });
 }
-function createRide(){
- if(!token){show('cr','Login first!',false);return}
+function doCreate(){
+ if(!token){show('cr','Please Login first! Go to Login tab',false);tab('log','b2');return;}
  var f=document.getElementById('cf').value;
  var t=document.getElementById('ct').value;
  var p=document.getElementById('cp').value;
- fetch(API+'/rides',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({origin:f,destination:t,price:p})}).then(function(res){return res.json().then(function(data){return {ok:res.ok,data:data}})}).then(function(obj){show('cr',obj.ok?'Ride Created! '+JSON.stringify(obj.data):'Error '+JSON.stringify(obj.data),obj.ok)});
+ var s=document.getElementById('cs').value;
+ show('cr','Creating ride...',true);
+ fetch(API+'/rides',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({origin:f,destination:t,price:p,seats:s,from:f,to:t})})
+ .then(function(res){return res.json().then(function(data){return {ok:res.ok,data:data,[STRIPPED]
+ .then(function(obj){
+   if(obj.ok){show('cr','Ride Created SUCCESS: '+JSON.stringify(obj.data),true);}
+   else {show('cr','Create failed '+obj.status+': '+JSON.stringify(obj.data),false);}
+ });
 }
-function searchRide(){
- var f=document.getElementById('bf').value.toLowerCase();
- var t=document.getElementById('bt').value.toLowerCase();
- var list=document.getElementById('blist');list.innerHTML='Searching...';
- fetch(API+'/rides').then(function(res){return res.json()}).then(function(data){
-  var rides=Array.isArray(data)?data:[STRIPPED]
-  var filtered=[];
-  for(var i=0;i<rides.length;i++){var r=rides[i];var o=(r.origin||'').toLowerCase();var de=(r.destination||'').toLowerCase();if((!f||o.indexOf(f)>=0)&&(!t||de.indexOf(t)>=0)){filtered.push(r);}}
-  if(filtered.length==0){list.innerHTML='<p>No rides for this route. Create one!</p>';return;}
-  var html='';
-  for(var j=0;j<filtered.length;j++){var rr=filtered[j];html+='<div style="background:#f9f9f9;padding:10px;border-radius:8px;margin:6px 0;border:1px solid #eee"><b>'+(rr.origin||'?')+' -> '+(rr.destination||'?')+'</b><br>Date: '+(rr.date||'N/A')+' Price: N'+(rr.price||'?')+'<br><button class="btn" onclick="bookNow()">Book This Ride</button></div>';}
-  list.innerHTML=html;
- }).catch(function(err){list.innerHTML='Error: '+err.message});
+function doSearch(){
+ var f=document.getElementById('bf').value.toLowerCase().trim();
+ var t=document.getElementById('bt').value.toLowerCase().trim();
+ var list=document.getElementById('blist');
+ list.innerHTML='Searching rides...';
+ fetch(API+'/rides')
+ .then(function(res){return res.json();})
+ .then(function(data){
+   var rides=Array.isArray(data)?data:[STRIPPED]
+   if(rides.length==0){list.innerHTML='<p>No rides yet. Create one!</p>';return;}
+   var html='<p>Found '+rides.length+' ride(s):</p>';
+   for(var j=0;j<rides.length;j++){var rr=rides[j];html+='<div style="background:#f9f9f9;padding:10px;border-radius:8px;margin:8px 0;border:1px solid #ddd"><b>'+(rr.origin||rr.from||'?')+' -> '+(rr.destination||rr.to||'?')+'</b><br>Price: N'+(rr.price||'0')+'<br><button class="btn btn2" onclick="doBook()">Book This Ride</button></div>';}
+   list.innerHTML=html;
+ });
 }
-function bookNow(){
+function doBook(){
  if(!token){alert('Please Login first!');tab('log','b2');return;}
- alert('Ride Booked! (Demo - Login OK, Bayelsa to the World!)');
  show('br','Ride Booked Successfully! Bayelsa to the World!',true);
 }
-function loadAll(){
+function doLoad(){
  var el=document.getElementById('alist');el.innerHTML='Loading...';
- fetch(API+'/rides').then(function(res){return res.json()}).then(function(data){el.innerHTML='<pre style="background:#f5f5f5;padding:10px;overflow:auto;font-size:11px;white-space:pre-wrap">'+JSON.stringify(data,null,2)+'</pre>';});
+ fetch(API+'/rides').then(function(res){return res.json();}).then(function(data){el.innerHTML='<pre style="background:#f5f5f5;padding:10px;border-radius:8px;overflow:auto;font-size:11px;white-space:pre-wrap">'+JSON.stringify(data,null,2)+'</pre>';});
 }
+fetch(API+'/').then(function(r){return r.text();}).then(function(t){setStatus('Backend LIVE: '+t.substring(0,80));}).catch(function(){setStatus('Backend waking... wait 30s');});
 </script>
 </body>
 </html>
